@@ -1,7 +1,7 @@
 // script.js
 const deck = [];
 const suits = ['♠', '♥', '♦', '♣'];
-const values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
+const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
 
 let playerHand = [];
 let dealerHand = [];
@@ -44,16 +44,12 @@ function calculateScore(hand) {
     let score = 0;
     let aces = 0;
     for (const card of hand) {
-        if (['J', 'Q', 'K'].includes(card.value)) {
-            score += 10;
-        } else if (card.value === 'A') {
+        if (card.value === 11) {
             aces++;
-            score += 11;
-        } else {
-            score += parseInt(card.value);
         }
+        score += card.value;
     }
-    while (score > 21 && aces) {
+    while (score > 21 && aces > 0) {
         score -= 10;
         aces--;
     }
@@ -71,13 +67,13 @@ function checkWinner() {
     if (playerScore > 21) {
         messageP.textContent = 'You busted! Dealer wins.';
     } else if (dealerScore > 21) {
-        messageP.textContent = 'Dealer busted! You win.';
-    } else if (playerScore === dealerScore) {
-        messageP.textContent = 'It\'s a tie!';
+        messageP.textContent = 'Dealer busted! You win!';
     } else if (playerScore > dealerScore) {
         messageP.textContent = 'You win!';
-    } else {
+    } else if (playerScore < dealerScore) {
         messageP.textContent = 'Dealer wins!';
+    } else {
+        messageP.textContent = 'It\'s a tie!';
     }
 }
 
@@ -115,3 +111,4 @@ document.getElementById('stand-button').addEventListener('click', () => {
 
 // Initialize the game
 createDeck();
+
